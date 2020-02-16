@@ -1,5 +1,6 @@
 const store = require('./store')
 const socket = require('../../socket').socket
+const config = require('../../config')
 
 async function addMessage(user, message, file) {
   try {
@@ -10,7 +11,7 @@ async function addMessage(user, message, file) {
 
     let fileUrl = ''
     if (file) {
-      fileUrl = `http://localhost:3000/app/files/${file.filename}`
+      fileUrl = `${config.host}:${config.port}/${config.publicRoute}/files/${file.filename}`
     }
 
     const newMessage = {
