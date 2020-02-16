@@ -6,11 +6,21 @@ function addMessage(message) {
 }
 
 async function getMessages(filterUser) {
-  let filter = {}
-  if (filterUser !== null) {
-    filter.user = new RegExp(filterUser, 'i')
-  }
-  return messages = await Model.find(filter)
+  return new Promise((resolve, reject) => {
+    let filter = {}
+    if (filterUser !== null) {
+      filter.user = new RegExp(filterUser, 'i')
+    }
+    Model.find(filter)
+      .populate('user')
+      .exec((error, populated) => {
+        if(error) {
+          console.log(error)
+          reject(error)
+        }
+        resolve(populated)
+      })
+  })
 }
 
 async function updateMessage(id, message) {

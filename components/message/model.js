@@ -3,8 +3,8 @@ const Schema = mongoose.Schema
 
 const MessageSchema = new Schema({
   user: {
-    type: String,
-    required: true
+    type: Schema.ObjectId,
+    ref: 'users'
   },
   message: {
     type: String,
