@@ -19,8 +19,12 @@ function addMessage(message) {
   myMessage.save()
 }
 
-async function getMessages() {
-  return messages = await Model.find()
+async function getMessages(filterUser) {
+  let filter = {}
+  if (filterUser !== null) {
+    filter.user = new RegExp(filterUser, 'i')
+  }
+  return messages = await Model.find(filter)
 }
 
 async function updateMessage(id, message) {
@@ -30,8 +34,14 @@ async function updateMessage(id, message) {
   return newMessage
 }
 
+async function deleteMessage(id) {
+  await Model.deleteOne({ _id: id})
+  return
+}
+
 module.exports = {
   addMessage,
   getMessages,
-  updateMessage
+  updateMessage,
+  deleteMessage
 }

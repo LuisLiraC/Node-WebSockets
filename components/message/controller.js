@@ -20,9 +20,9 @@ async function addMessage(user, message) {
   }
 }
 
-async function getMessages() {
+async function getMessages(filterUser) {
   try {
-    const result = await store.getMessages()
+    const result = await store.getMessages(filterUser)
     return result
   } catch (error) {
     throw new Error('Error al obtener los datos')
@@ -42,8 +42,22 @@ async function updateMessage(id, message) {
   }
 }
 
+async function deleteMessage(id) {
+  try {
+    if (!id) {
+      console.log('[ERROR] [MESSAGE CONTROLLER] No hay id')
+      throw new Error()
+    }
+    await store.deleteMessage(id)
+    return
+  } catch (error) {
+    throw new Error('Datos incorrectos')
+  }
+}
+
 module.exports = {
   addMessage,
   getMessages,
-  updateMessage
+  updateMessage,
+  deleteMessage
 }

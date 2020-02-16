@@ -5,7 +5,8 @@ const controller = require('./controller')
 
 router.get('/', async (req, res) => {
   try {
-    const messagesList = await controller.getMessages()
+    const filterMessages = req.query.user || null
+    const messagesList = await controller.getMessages(filterMessages)
     response.success(req, res, messagesList, 200)
   } catch (error) {
     response.error(req, res, 'Unexpected error', 500, error)
@@ -22,12 +23,22 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.put('/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
     const { id } = req.params
     const { message } = req.body
     const result = await controller.updateMessage(id, message)
     response.success(req, res, result, 200)
+  } catch (error) {
+    response.error(req, res, 'Error interno', 500, error)
+  }
+})
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    await controller.deleteMessage(id)
+    response.success(req, res, `Mensaje ${id} eliminado`, 200)
   } catch (error) {
     response.error(req, res, 'Error interno', 500, error)
   }
