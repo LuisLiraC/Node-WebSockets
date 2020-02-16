@@ -13,8 +13,8 @@ async function addMessage(user, message) {
       date: new Date()
     }
     store.addMessage(newMessage)
-    return newMessage
 
+    return newMessage
   } catch (error) {
     throw new Error('Datos incorrectos')
   }
