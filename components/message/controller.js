@@ -25,11 +25,25 @@ async function getMessages() {
     const result = await store.getMessages()
     return result
   } catch (error) {
-    console.log(error)
+    throw new Error('Error al obtener los datos')
+  }
+}
+
+async function updateMessage(id, message) {
+  try {
+    if (!id || !message) {
+      console.log('[ERROR] [MESSAGE CONTROLLER] No hay id o mensaje')
+      throw new Error()
+    }
+    const result = await store.updateMessage(id, message)
+    return result
+  } catch (error) {
+    throw new Error('Datos incorrectos')
   }
 }
 
 module.exports = {
   addMessage,
-  getMessages
+  getMessages,
+  updateMessage
 }
