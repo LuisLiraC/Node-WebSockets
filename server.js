@@ -1,6 +1,13 @@
+const dotenv = require('dotenv')
+dotenv.config()
+
 const express = require('express')
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT
+
+const db = require('./db')
+db(process.env.MONGO_URI)
+
 const router = require('./network/routes')
 
 app.use(express.json())
