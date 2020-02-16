@@ -1,21 +1,25 @@
 const dotenv = require('dotenv')
 dotenv.config()
+const PORT = process.env.PORT
 
 const express = require('express')
 const app = express()
-const PORT = process.env.PORT
-
+const cors = require('cors')
+const server = require('http').Server(app)
+const socket = require('./socket')
 const db = require('./db')
-db(process.env.MONGO_URI)
-
 const router = require('./network/routes')
 
+db(process.env.MONGO_URI)
+socket.connect(server)
+app.use(cors())
 app.use(express.json())
+
 router(app)
 
 app.use('/app', express.static('public'))
 
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT}`)
 })

@@ -1,4 +1,5 @@
 const store = require('./store')
+const socket = require('../../socket').socket
 
 async function addMessage(user, message, file) {
   try {
@@ -19,7 +20,7 @@ async function addMessage(user, message, file) {
       file: fileUrl
     }
     store.addMessage(newMessage)
-
+    socket.io.emit('message', newMessage)
     return newMessage
   } catch (error) {
     throw new Error('Datos incorrectos')
