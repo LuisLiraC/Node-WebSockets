@@ -1,7 +1,12 @@
 const express = require('express')
 const router = express.Router()
+const multer = require('multer')
 const response = require('../../network/response')
 const controller = require('./controller')
+
+const upload = multer({
+  dest: 'public/files/'
+})
 
 router.get('/', async (req, res) => {
   try {
@@ -13,10 +18,11 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', upload.single('file'), async (req, res) => {
   try {
+    const { file } = req
     const { user, message } = req.body
-    const newMessage = await controller.addMessage(user, message)
+    const newMessage = await controller.addMessage(user, message, file)
     response.success(req, res, newMessage, 201)
   } catch (error) {
     response.error(req, res, 'Información inválida', 400, error.message)

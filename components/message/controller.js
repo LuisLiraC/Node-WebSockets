@@ -1,16 +1,22 @@
 const store = require('./store')
 
-async function addMessage(user, message) {
+async function addMessage(user, message, file) {
   try {
     if (!user || !message) {
       console.log('[ERROR] [MESSAGE CONTROLLER] No hay usuario o mensaje')
       throw new Error()
     }
 
+    let fileUrl = ''
+    if (file) {
+      fileUrl = `http://localhost:3000/app/files/${file.filename}`
+    }
+
     const newMessage = {
       user,
       message,
-      date: new Date()
+      date: new Date(),
+      file: fileUrl
     }
     store.addMessage(newMessage)
 

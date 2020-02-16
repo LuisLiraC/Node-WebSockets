@@ -13,7 +13,8 @@ const MessageSchema = new Schema({
   date: {
     type: Date,
     required: true
-  }
+  },
+  file: String
 })
 
 const model = mongoose.model('messages', MessageSchema)
